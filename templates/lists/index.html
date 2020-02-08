@@ -1,0 +1,44 @@
+{% load static %}
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" 
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+<title>Cheat Day List</title>
+
+<div class="center-column">
+    
+    <form method="POST" action="/">
+        {% csrf_token %}
+        
+            {{ form.title }}
+            {{ form.priority }}
+
+        <input class="btn btn-info" type="submit" name="Create List" value="Add">
+    </form>
+
+    {% if lists %}
+        {% for list in lists %}
+            <div class="item-row">
+                
+                <a class="btn btn-sm btn-info" href="{% url 'update_list' list.id %}">Update</a>
+                <a class="btn btn-sm btn-danger" href="{% url 'delete' list.id %}">Delete</a>
+                
+                {% if list.complete == True %}
+                    <strike>{{ list.title }}</strike>
+                {% else %}
+                    <span>{{ list.title }}</span>
+                {% endif %}
+                <div class="dark float-right">
+                    {{list.priority}}
+                </div>
+                
+            </div>
+        {% endfor %}
+    {% else %}
+        <h2>Add a list</h2>
+    {% endif %}
+
+    
+
+</div>
+
